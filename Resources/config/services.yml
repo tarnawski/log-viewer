@@ -1,0 +1,31 @@
+parameters:
+  default_read_strategy: json
+
+services:
+  log_viewer.log_reader:
+    class: LogViewerBundle\Reader\LogReader
+    arguments:
+      - '%log_viewer.lines%'
+
+  log_viewer.log_commutator:
+    class: LogViewerBundle\Reader\LogCommutator
+    arguments:
+      - '%log_viewer.logs%'
+
+  log_viewer.string_strategy:
+    class: LogViewerBundle\DataTransformer\Strategy\StringStrategy
+
+  log_viewer.json_strategy:
+    class: LogViewerBundle\DataTransformer\Strategy\JsonStrategy
+
+  log_viewer.strategy_factory:
+    class: LogViewerBundle\DataTransformer\StrategyFactory
+    arguments:
+      - '%default_read_strategy%'
+      - '@log_viewer.string_strategy'
+      - '@log_viewer.json_strategy'
+
+  log_viewer.html_formatter:
+    class: LogViewerBundle\Formatter\HtmlFormatter
+    arguments:
+      - '@templating'

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ view | upper }} - LogViewer</title>
+<style type="text/css">
+    {{ css|raw }}
+</style>
+</head>
+<body>
+<ul>
+    <li><a href="{{ path('dashboard')}}"><h3>LogViewer</h3></a></li>
+
+    <li class="styled-select filters">
+        <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+            <button class="button button2">REFRESH</button>
+        </a>
+    </li>
+    {% if form %}
+    {{ form_start(form) }}
+    <li class="filters">{{ form_widget(form.save) }}</li>
+    <li class="filters">{{ form_widget(form.message) }}</li>
+    <li class="styled-select filters">{{ form_widget(form.limit) }}</li>
+    <li class="styled-select filters">{{ form_widget(form.level) }}</li>
+    <li class="styled-select filters">{{ form_widget(form.date) }}</li>
+    {{ form_end(form) }}
+    {% endif %}
+</ul>
+{% if message %}
+    <h1 class="message">{{ message }}</h1>
+{% else %}
+<table>
+    <tr>
+        <th>Level</th>
+        <th>Date</th>
+        <th>Message</th>
+        <th>Channel</th>
+    </tr>
+    {% for log in logs %}
+        <tr>
+            <td>{{ log.level }}</td>
+            <td style="width: 90px">{{ log.dateTime|date('Y-m-d H:i:s') }}</td>
+            <td>{{ log.message }}</td>
+            <td>{{ log.channel|upper }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% if not message %}
+<div class="footer">
+    <h4>Fetched {{ count }} logs on: {{ date|date('Y-m-d H:i:s') }}</h4>
+</div>
+{% endif %}
+
+</body>
+</html>

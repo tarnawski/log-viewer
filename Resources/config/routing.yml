@@ -1,0 +1,4 @@
+dashboard:
+    path:     /{view}
+    defaults: { _controller: LogViewerBundle:LogViewer:index, view: 'default'}
+    methods: [GET]
