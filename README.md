@@ -5,7 +5,7 @@ LogViewer
 
 Open a command console, enter your project directory and execute the following command:
 ```
-$ composer require
+$ composer require tarnawski/log-viewer
 ```
 
 2. Enable the Bundle
