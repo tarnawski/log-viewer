@@ -34,6 +34,6 @@ class StrategyFactorySpec extends ObjectBehavior
 
     function it_should_return_throw_when_method_not_correct()
     {
-        $this->getStrategy('invalid')->shouldThrow(new DataTransformerException("@string@"));
+        $this->shouldThrow(DataTransformerException::class)->during('getStrategy',['invalid'] );
     }
 }
