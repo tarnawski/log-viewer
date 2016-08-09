@@ -5,7 +5,7 @@ services:
   log_viewer.log_reader:
     class: LogViewerBundle\Reader\LogReader
     arguments:
-      - '%log_viewer.lines%'
+      - '%log_viewer.max_tail%'
 
   log_viewer.log_commutator:
     class: LogViewerBundle\Reader\LogCommutator
