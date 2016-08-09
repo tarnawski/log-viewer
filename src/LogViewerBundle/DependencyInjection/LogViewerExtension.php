@@ -15,7 +15,7 @@ class LogViewerExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('log_viewer.logs', $config['logs']);
-        $container->setParameter('log_viewer.lines', $config['lines']);
+        $container->setParameter('log_viewer.max_tail', $config['max_tail']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

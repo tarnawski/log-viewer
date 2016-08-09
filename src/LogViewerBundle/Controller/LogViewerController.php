@@ -3,6 +3,7 @@
 namespace LogViewerBundle\Controller;
 
 use LogViewerBundle\Exception\DataTransformerException;
+use LogViewerBundle\Exception\ReaderException;
 use LogViewerBundle\Form\Type\LogCriteriaType;
 use LogViewerBundle\Formatter\HtmlFormatter;
 use LogViewerBundle\Model\LogCollection;
@@ -46,8 +47,14 @@ class LogViewerController extends Controller
             return new Response($htmlContent, 500, array('Content-Type' => 'text/html'));
         }
 
-        $data = $logReader->readData($conf['path']);
-        /** @var LogCollection $logCollection */
+        try {
+            $data = $logReader->readData($conf['path']);
+        } catch (ReaderException $e){
+            $htmlContent = $htmlFormatter->render([], $view, null, $e->getMessage());
+            return new Response($htmlContent, 500, array('Content-Type' => 'text/html'));
+        }
+
+            /** @var LogCollection $logCollection */
         $logCollection = $strategy->transform($data);
 
 
