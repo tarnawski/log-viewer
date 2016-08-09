@@ -35,7 +35,7 @@ log_viewer:
       test:
         path: /dev/shm/api-backend/logs/test.log
         method: json
-    lines: 100
+    max_tail: 500
 ```
 
 
