@@ -2,14 +2,16 @@
 
 namespace LogViewerBundle\Reader;
 
+use LogViewerBundle\Exception\ReaderException;
+
 class LogReader
 {
     /** @var  integer */
-    public $lines;
+    public $maxTail;
 
-    public function __construct($lines)
+    public function __construct($maxTail)
     {
-        $this->lines = $lines;
+        $this->maxTail = $maxTail;
     }
 
     public function readData($path)
@@ -24,22 +26,22 @@ class LogReader
     {
         $file = @fopen($path, "rb");
         if ($file === false) {
-            return false;
+            throw new ReaderException('File not found!');
         }
-        $buffer = ($this->lines < 2 ? 64 : ($this->lines < 10 ? 512 : 4096));
+        $buffer = ($this->maxTail < 2 ? 64 : ($this->maxTail < 10 ? 512 : 4096));
         fseek($file, -1, SEEK_END);
-        if (fread($file, 1) != "\n") $this->lines -= 1;
+        if (fread($file, 1) != "\n") $this->maxTail -= 1;
         $output = '';
         $chunk = '';
-        while (ftell($file) > 0 && $this->lines >= 0) {
+        while (ftell($file) > 0 && $this->maxTail >= 0) {
             $seek = min(ftell($file), $buffer);
             fseek($file, -$seek, SEEK_CUR);
             $output = ($chunk = fread($file, $seek)) . $output;
             fseek($file, -mb_strlen($chunk, '8bit'), SEEK_CUR);
-            $this->lines -= substr_count($chunk, "\n");
+            $this->maxTail -= substr_count($chunk, "\n");
         }
 
-        while ($this->lines++ < 0) {
+        while ($this->maxTail++ < 0) {
             $output = substr($output, strpos($output, "\n") + 1);
         }
         fclose($file);

@@ -24,7 +24,7 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getMethod())
                         ->end()
                     ->end()
-                ->integerNode('lines')->end()
+                ->integerNode('max_tail')->end()
 
             ->end()
         ;
