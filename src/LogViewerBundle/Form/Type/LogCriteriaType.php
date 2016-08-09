@@ -17,7 +17,7 @@ class LogCriteriaType extends AbstractType
     {
         $builder->setMethod('GET');
         $builder->add('limit', ChoiceType::class, [
-            'choices'  => [
+            'choices' => [
                 '5' => '5',
                 '10' => '10',
                 '25' => '25',
@@ -30,7 +30,7 @@ class LogCriteriaType extends AbstractType
             'placeholder' => 'LIMIT LOGS',
         ]);
         $builder->add('level', ChoiceType::class, [
-            'choices'  => [
+            'choices' => [
                 'EMERGENCY' => 'EMERGENCY',
                 'ALERT' => 'ALERT',
                 'CRITICAL' => 'CRITICAL',
@@ -44,7 +44,7 @@ class LogCriteriaType extends AbstractType
             'placeholder' => 'ALL LEVEL',
         ]);
         $builder->add('date', ChoiceType::class, [
-            'choices'  => [
+            'choices' => [
                 'LAST 1 HOURS' => '-1 hour',
                 'LAST 3 HOURS' => '-3 hour',
                 'LAST 6 HOURS' => '-6 hour',
@@ -64,7 +64,9 @@ class LogCriteriaType extends AbstractType
                 return null;
             },
             function ($dateAsString) {
-                if(!$dateAsString) return null;
+                if (!$dateAsString) {
+                    return null;
+                }
                 $date = new \DateTime();
                 $date->modify($dateAsString);
 

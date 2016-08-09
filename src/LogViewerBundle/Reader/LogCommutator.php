@@ -14,10 +14,10 @@ class LogCommutator
 
     public function getConfiguration($name)
     {
-        if($name == 'default'){
+        if ($name == 'default') {
             return reset($this->logsConf);
         }
-        if(!isset($this->logsConf[$name])){
+        if (!isset($this->logsConf[$name])) {
             return false;
         }
 

@@ -23,8 +23,8 @@ class StrategyFactory
         $this->jsonStrategy = $jsonStrategy;
     }
 
-    public function getDefaultStrategy(){
-
+    public function getDefaultStrategy()
+    {
         return $this->getStrategy($this->method);
     }
 

@@ -30,7 +30,9 @@ class LogReader
         }
         $buffer = ($this->maxTail < 2 ? 64 : ($this->maxTail < 10 ? 512 : 4096));
         fseek($file, -1, SEEK_END);
-        if (fread($file, 1) != "\n") $this->maxTail -= 1;
+        if (fread($file, 1) != "\n") {
+            $this->maxTail -= 1;
+        }
         $output = '';
         $chunk = '';
         while (ftell($file) > 0 && $this->maxTail >= 0) {

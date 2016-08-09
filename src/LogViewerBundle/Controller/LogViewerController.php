@@ -35,26 +35,26 @@ class LogViewerController extends Controller
         $form = $this->createForm(LogCriteriaType::class);
         $conf = $logCommutator->getConfiguration($view);
 
-        if(!$conf){
-            $htmlContent = $htmlFormatter->render([], $view, null, 'Configuration for "'.$view.'" not found!');
+        if (!$conf) {
+            $htmlContent = $htmlFormatter->render([], $view, null, 'Configuration for "' . $view . '" not found!');
             return new Response($htmlContent, 200, array('Content-Type' => 'text/html'));
         }
 
         try {
             $strategy = $strategyFactory->getStrategy($conf['method']);
-        } catch (DataTransformerException $e){
+        } catch (DataTransformerException $e) {
             $htmlContent = $htmlFormatter->render([], $view, null, $e->getMessage());
             return new Response($htmlContent, 500, array('Content-Type' => 'text/html'));
         }
 
         try {
             $data = $logReader->readData($conf['path']);
-        } catch (ReaderException $e){
+        } catch (ReaderException $e) {
             $htmlContent = $htmlFormatter->render([], $view, null, $e->getMessage());
             return new Response($htmlContent, 500, array('Content-Type' => 'text/html'));
         }
 
-            /** @var LogCollection $logCollection */
+        /** @var LogCollection $logCollection */
         $logCollection = $strategy->transform($data);
 
 
@@ -66,8 +66,8 @@ class LogViewerController extends Controller
             $logs = $logCollection->getLogs();
         }
 
-        if(empty($logs)){
-            $htmlContent = $htmlFormatter->render([], $view, null, 'Logs file for "'.$view.'" not exist or is empty!');
+        if (empty($logs)) {
+            $htmlContent = $htmlFormatter->render([], $view, null, 'Logs file for "' . $view . '" not exist or is empty!');
             return new Response($htmlContent, 200, array('Content-Type' => 'text/html'));
         }
 
