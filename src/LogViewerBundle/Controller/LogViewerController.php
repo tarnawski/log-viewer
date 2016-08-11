@@ -67,7 +67,7 @@ class LogViewerController extends Controller
         }
 
         if (empty($logs)) {
-            $htmlContent = $htmlFormatter->render([], $view, null, 'Logs file for "' . $view . '" not exist or is empty!');
+            $htmlContent = $htmlFormatter->render([], $view, null, 'Logs file is empty!');
             return new Response($htmlContent, 200, array('Content-Type' => 'text/html'));
         }
 
