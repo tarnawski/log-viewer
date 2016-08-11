@@ -15,11 +15,11 @@ class JsonStrategy implements TransformStrategy
             $log = json_decode($line, true);
             if ($log) {
                 $logObj = new Log(
-                    $log['message'],
-                    $log['context'],
-                    $log['level_name'],
-                    $log['channel'],
-                    new \DateTime($log['datetime']['date'])
+                    isset($log['message']) ? $log['message'] : null,
+                    isset($log['context']) ? $log['context'] : null,
+                    isset($log['level_name']) ? $log['level_name'] : null,
+                    isset($log['channel']) ? $log['channel'] : null,
+                    isset($log['datetime']['date']) ? new \DateTime($log['datetime']['date']) : null
                 );
                 $logs->addLog($logObj);
             }
